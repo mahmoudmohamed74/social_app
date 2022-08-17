@@ -3,10 +3,12 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/layout/layout_screen.dart';
 import 'package:social_app/moduels/login/cubit/cubit.dart';
 import 'package:social_app/moduels/login/cubit/states.dart';
 import 'package:social_app/moduels/register/register_screen.dart';
-import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/shared/components/components/components.dart';
+import 'package:social_app/shared/network/local/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
@@ -22,6 +24,26 @@ class LoginScreen extends StatelessWidget {
           showToast(
             text: state.error,
             state: ToastStates.ERROR,
+          );
+        }
+        if (state is LoginSuccessState) {
+          CacheHelper.saveData(
+            key: "uId",
+            value: state.uId,
+          ).then(
+            (value) {
+              // ShopCubit.get(context) // to update user’s data at every login
+              //   ..getHomeData()
+              //   ..getCategories()
+              //   ..getFavorites()
+              //   ..getUserData();
+              // cubit.currentIndex = 0;
+
+              navigateAndFinish(
+                context,
+                LayoutScreen(),
+              );
+            },
           );
         }
       }, builder: (context, state) {

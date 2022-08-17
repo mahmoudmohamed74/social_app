@@ -12,4 +12,12 @@ class RegisterErorrState extends RegisterStates {
   RegisterErorrState(this.error);
 }
 
+class CreateUserSuccessState extends RegisterStates {}
+
+class CreateUserErrorState extends RegisterStates {
+  final String error;
+
+  CreateUserErrorState(this.error);
+}
+
 class RgisterChangePasswordVisibilityState extends RegisterStates {}

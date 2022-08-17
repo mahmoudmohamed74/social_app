@@ -4,9 +4,10 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/layout/layout_screen.dart';
 import 'package:social_app/moduels/register/cubit/cubit.dart';
 import 'package:social_app/moduels/register/cubit/states.dart';
-import 'package:social_app/shared/components/components.dart';
+import 'package:social_app/shared/components/components/components.dart';
 
 class RegisterScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>(); // create valdaition
@@ -22,46 +23,12 @@ class RegisterScreen extends StatelessWidget {
       create: (context) => RegisterCuibt(),
       child: BlocConsumer<RegisterCuibt, RegisterStates>(
         listener: (context, state) {
-          // if (state is RegisterSuccessState) {
-          //   if (state.loginModel.status!) {
-          //     showToast(
-          //       // text: "Login done successfully",
-          //       text: state.loginModel.message.toString(),
-          //       state: ToastStates.SUCCESS,
-          //     );
-          //     print(state.loginModel.message);
-          //     print(state.loginModel.data!.token);
-
-          //     CacheHelper.saveData(
-          //       key: "token",
-          //       value: state.loginModel.data!.token!,
-          //     ).then(
-          //       (value) {
-          //         token = state.loginModel.data!.token;
-          //         Cubit.get(
-          //             context) // to update user’s data at every update
-          //           ..getHomeData()
-          //           ..getCategories()
-          //           ..getFavorites()
-          //           ..getUserData();
-          //         cubit.currentIndex = 0;
-
-          //         navigateAndFinish(
-          //           context,
-          //           Layout(),
-          //         );
-          //       },
-          //     );
-          //   } else {
-          //     print(state.loginModel.message!);
-
-          //     showToast(
-          //       // text: "Incorrect email format",
-          //       text: state.loginModel.message.toString(),
-          //       state: ToastStates.ERROR,
-          //     );
-          //   }
-          // }
+          if (state is CreateUserSuccessState) {
+            navigateAndFinish(
+              context,
+              LayoutScreen(),
+            );
+          }
         },
         builder: (context, state) {
           return Scaffold(
