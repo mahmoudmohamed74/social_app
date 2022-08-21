@@ -1,93 +1,89 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/cubit/cubit.dart';
 import 'package:social_app/cubit/states.dart';
-import 'package:social_app/moduels/login/login_screen.dart';
+import 'package:social_app/moduels/new_post/new_post_screen.dart';
 import 'package:social_app/shared/components/components/components.dart';
+import 'package:social_app/shared/styles/themes/icon_broken.dart';
 
 class LayoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SocialCubit, SocialState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text("News Feed"),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    navigateAndFinish(
-                      context,
-                      LoginScreen(),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.search,
-                  ),
-                ),
-              ],
-            ),
-            body: ConditionalBuilder(
-              condition: SocialCubit.get(context).model != null,
-              builder: (context) {
-                // var model = SocialCubit.get(context).model;
-
-                return Column(
-                  children: [
-                    if (!FirebaseAuth.instance.currentUser!.emailVerified)
-                      Container(
-                        color: Colors.amber.withOpacity(.5),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.info_outline,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Text("Please verify your email"),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              defaultTextButton(
-                                function: () {
-                                  FirebaseAuth.instance.currentUser!
-                                      .sendEmailVerification()
-                                      .then((value) {
-                                    showToast(
-                                      text: "check your mail ",
-                                      state: ToastStates.SUCCESS,
-                                    );
-                                  }).catchError((error) {
-                                    showToast(
-                                      text: " faild ",
-                                      state: ToastStates.ERROR,
-                                    );
-                                  });
-                                },
-                                text: "send",
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              },
-              fallback: (context) => Center(child: CircularProgressIndicator()),
-            ),
+      listener: (context, state) {
+        if (state is SocialNewPostState) {
+          navigateTo(
+            context,
+            NewPostScreen(),
           );
-        });
+        }
+      },
+      builder: (context, state) {
+        var cubit = SocialCubit.get(context);
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              cubit.titles[cubit.currentIndex],
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(
+                  IconBroken.Notification,
+                ),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(
+                  IconBroken.Search,
+                ),
+                onPressed: () {},
+              ),
+            ],
+          ),
+          body: cubit.screens[cubit.currentIndex],
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: cubit.currentIndex,
+            onTap: (index) {
+              cubit.changeBottomNav(index);
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  IconBroken.Home,
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  IconBroken.Chat,
+                ),
+                label: 'Chats',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  IconBroken.Paper_Upload,
+                ),
+                label: 'Post',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  IconBroken.Location,
+                ),
+                label: 'Users',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  IconBroken.Setting,
+                ),
+                label: 'Settings',
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

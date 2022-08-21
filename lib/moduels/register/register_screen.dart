@@ -63,11 +63,11 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.name,
                           validate: (value) {
                             if (value!.isEmpty) {
-                              return "name  address  must  not  be  empty";
+                              return "name must not be empty";
                             }
                             return null;
                           },
-                          lable: "User  Name",
+                          lable: "Name",
                           prefix: Icons.person,
                         ),
                         SizedBox(
@@ -78,11 +78,11 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.emailAddress,
                           validate: (value) {
                             if (value!.isEmpty) {
-                              return "email  address  must  not  be  empty";
+                              return "email address must not be empty";
                             }
                             return null;
                           },
-                          lable: "Email  Address",
+                          lable: "Email Address",
                           prefix: Icons.email,
                         ),
                         SizedBox(
@@ -93,11 +93,11 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.phone,
                           validate: (value) {
                             if (value!.isEmpty) {
-                              return "Phone  number  must  not  be  empty";
+                              return "Phone number must not be empty";
                             }
                             return null;
                           },
-                          lable: "Phone  Number",
+                          lable: "Phone Number",
                           prefix: Icons.phone_android_outlined,
                         ),
                         SizedBox(
@@ -108,7 +108,7 @@ class RegisterScreen extends StatelessWidget {
                           type: TextInputType.visiblePassword,
                           validate: (value) {
                             if (value!.isEmpty) {
-                              return "password  is  too  short";
+                              return "password is too short";
                             }
                             return null;
                           },

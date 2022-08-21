@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:social_app/shared/styles/themes/icon_broken.dart';
 
 Widget defaultButton({
   double width = double.infinity,
@@ -159,3 +160,24 @@ Color chooseToastColor(ToastStates state) {
 
   return color;
 }
+
+PreferredSizeWidget defaultAppBar({
+  required BuildContext context,
+  String? title,
+  List<Widget>? actions,
+}) =>
+    AppBar(
+      titleSpacing: 5.0,
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(
+          IconBroken.Arrow___Left_2,
+        ),
+      ),
+      title: Text(
+        title!,
+      ),
+      actions: actions,
+    );

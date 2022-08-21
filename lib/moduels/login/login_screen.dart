@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, must_be_immutable
+// ignore_for_file: use_key_in_widget_constructors, must_be_immutable, prefer_const_constructors
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
@@ -18,149 +18,145 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCuibt(),
-      child: BlocConsumer<LoginCuibt, LoginStates>(listener: (context, state) {
-        if (state is LoginErorrState) {
-          showToast(
-            text: state.error,
-            state: ToastStates.ERROR,
-          );
-        }
-        if (state is LoginSuccessState) {
-          CacheHelper.saveData(
-            key: "uId",
-            value: state.uId,
-          ).then(
-            (value) {
-              // ShopCubit.get(context) // to update user’s data at every login
-              //   ..getHomeData()
-              //   ..getCategories()
-              //   ..getFavorites()
-              //   ..getUserData();
-              // cubit.currentIndex = 0;
-
+      create: (BuildContext context) => LoginCuibt(),
+      child: BlocConsumer<LoginCuibt, LoginStates>(
+        listener: (context, state) {
+          if (state is LoginErorrState) {
+            showToast(
+              text: state.error,
+              state: ToastStates.ERROR,
+            );
+          }
+          if (state is LoginSuccessState) {
+            CacheHelper.saveData(
+              key: 'uId',
+              value: state.uId,
+            ).then((value) {
               navigateAndFinish(
                 context,
                 LayoutScreen(),
               );
-            },
-          );
-        }
-      }, builder: (context, state) {
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Center(
+            });
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(),
+            body: Center(
               child: SingleChildScrollView(
-                //ايرور لوحه المفاتيح
-                child: Form //validation
-                    (
-                  key: formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "LOGIN",
-                        style: Theme.of(context).textTheme.headline3,
-                      ),
-                      Text(
-                        "login now to communicate with friends",
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                              color: Colors.grey,
-                            ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      defaultFormField(
-                        controller: emailController,
-                        type: TextInputType.emailAddress,
-                        validate: (value) {
-                          if (value!.isEmpty) {
-                            return "email address must not be empty";
-                          }
-                          return null;
-                        },
-                        lable: "Email Address",
-                        prefix: Icons.email,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      defaultFormField(
-                        controller: passwordController,
-                        type: TextInputType.visiblePassword,
-                        validate: (value) {
-                          if (value!.isEmpty) {
-                            return "password is too short";
-                          }
-                          return null;
-                        },
-                        lable: "Password",
-                        prefix: Icons.lock,
-                        suffix: LoginCuibt.get(context).suffix,
-                        isPassword: LoginCuibt.get(context).isPassword,
-                        suffixPressed: () {
-                          LoginCuibt.get(context).changePasswordVisibility();
-                        },
-                        onFieldSubmitted: (value) {
-                          if (formKey.currentState!.validate()) {
-                            // LoginCuibt.get(context).userLogin(
-                            //   email: emailController.text,
-                            //   password: passwordController.text,
-                            // );
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      ConditionalBuilder(
-                        condition: state is! LoginLoadingState,
-                        builder: (context) => defaultButton(
-                          function: () {
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'LOGIN',
+                          style:
+                              Theme.of(context).textTheme.headline4!.copyWith(
+                                    color: Colors.black,
+                                  ),
+                        ),
+                        Text(
+                          'Login now to communicate with friends',
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                        ),
+                        SizedBox(
+                          height: 30.0,
+                        ),
+                        defaultFormField(
+                          controller: emailController,
+                          type: TextInputType.emailAddress,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "please enter your email address";
+                            }
+                            return null;
+                          },
+                          lable: 'Email Address',
+                          prefix: Icons.email_outlined,
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        defaultFormField(
+                          controller: passwordController,
+                          type: TextInputType.visiblePassword,
+                          suffix: LoginCuibt.get(context).suffix,
+                          onFieldSubmitted: (value) {
                             if (formKey.currentState!.validate()) {
-                              LoginCuibt.get(context).userLogin(
-                                email: emailController.text,
-                                password: passwordController.text,
-                              );
+                              // LoginCuibt.get(context).userLogin(
+                              //   email: emailController.text,
+                              //   password: passwordController.text,
+                              // );
                             }
                           },
-                          text: "Login",
-                          isUpperCase: true,
+                          isPassword: LoginCuibt.get(context).isPassword,
+                          suffixPressed: () {
+                            LoginCuibt.get(context).changePasswordVisibility();
+                          },
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter the right password";
+                            }
+                            return null;
+                          },
+                          lable: 'Password',
+                          prefix: Icons.lock_outline,
                         ),
-                        fallback: (context) => Center(
-                          child: CircularProgressIndicator(),
+                        SizedBox(
+                          height: 30.0,
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account? ",
-                          ),
-                          defaultTextButton(
+                        ConditionalBuilder(
+                          condition: state is! LoginLoadingState,
+                          builder: (context) => defaultButton(
                             function: () {
-                              navigateTo(
-                                context,
-                                RegisterScreen(),
-                              );
+                              if (formKey.currentState!.validate()) {
+                                LoginCuibt.get(context).userLogin(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                );
+                              }
                             },
-                            text: "Register now",
+                            text: 'login',
+                            isUpperCase: true,
                           ),
-                        ],
-                      ),
-                    ],
+                          fallback: (context) =>
+                              Center(child: CircularProgressIndicator()),
+                        ),
+                        SizedBox(
+                          height: 15.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Don\'t have an account?',
+                            ),
+                            defaultTextButton(
+                              function: () {
+                                navigateTo(
+                                  context,
+                                  RegisterScreen(),
+                                );
+                              },
+                              text: 'register',
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }
