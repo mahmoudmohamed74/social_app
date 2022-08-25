@@ -50,7 +50,8 @@ class EditProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  if (state is SocialGetUserLoadingState)
+                  if (state
+                      is SocialGetUserLoadingState) //SocialUserUpdateLoadingState مش هيشتغل
                     LinearProgressIndicator(),
                   if (state is SocialGetUserLoadingState)
                     SizedBox(

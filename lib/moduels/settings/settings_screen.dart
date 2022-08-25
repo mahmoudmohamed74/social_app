@@ -1,5 +1,6 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, sized_box_for_whitespace
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/cubit/cubit.dart';
@@ -174,6 +175,27 @@ class SettingsScreen extends StatelessWidget {
                       IconBroken.Edit,
                       size: 16.0,
                     ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      FirebaseMessaging.instance
+                          .subscribeToTopic('announcements');
+                    },
+                    child: const Text('subscribe'),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  OutlinedButton(
+                    onPressed: () {
+                      FirebaseMessaging.instance
+                          .unsubscribeFromTopic('announcements');
+                    },
+                    child: const Text('unsubscribe'),
                   ),
                 ],
               ),

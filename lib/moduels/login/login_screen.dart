@@ -3,11 +3,13 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/cubit/cubit.dart';
 import 'package:social_app/layout/layout_screen.dart';
 import 'package:social_app/moduels/login/cubit/cubit.dart';
 import 'package:social_app/moduels/login/cubit/states.dart';
 import 'package:social_app/moduels/register/register_screen.dart';
 import 'package:social_app/shared/components/components/components.dart';
+import 'package:social_app/shared/components/constants/constants.dart';
 import 'package:social_app/shared/network/local/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -32,6 +34,12 @@ class LoginScreen extends StatelessWidget {
               key: 'uId',
               value: state.uId,
             ).then((value) {
+              uId = state.uId;
+              SocialCubit.get(context)
+                ..getUserData()
+                ..getPosts();
+
+              SocialCubit.get(context).currentIndex = 0;
               navigateAndFinish(
                 context,
                 LayoutScreen(),

@@ -12,6 +12,18 @@ class SocialGetUserErrorState extends SocialState {
   SocialGetUserErrorState(this.error);
 }
 
+//all users
+
+class SocialGetAllUsersLoadingState extends SocialState {}
+
+class SocialGetAllUsersSuccessState extends SocialState {}
+
+class SocialGetAllUsersErrorState extends SocialState {
+  final String error;
+
+  SocialGetAllUsersErrorState(this.error);
+}
+
 class SocialChangeBottomNavState extends SocialState {}
 
 class SocialNewPostState extends SocialState {}
@@ -53,3 +65,38 @@ class SocialPostImagePickedSuccessState extends SocialState {}
 class SocialPostImagePickedErrorState extends SocialState {}
 
 class SocialRemovePostImagePickedSuccessState extends SocialState {}
+
+class SocialGetPostsLoadingState extends SocialState {}
+
+class SocialGetPostsSuccessState extends SocialState {}
+
+class SocialGetPostsErrorState extends SocialState {
+  final String error;
+
+  SocialGetPostsErrorState(this.error);
+}
+
+class SocialLikePostSuccessState extends SocialState {}
+
+class SocialLikePostErrorState extends SocialState {
+  final String error;
+
+  SocialLikePostErrorState(this.error);
+}
+
+class SocialCommentPostSuccessState extends SocialState {}
+
+class SocialCommentPostErrorState extends SocialState {
+  final String error;
+
+  SocialCommentPostErrorState(this.error);
+}
+// chats
+
+class SocialSendMessagesSuccessState extends SocialState {}
+
+class SocialSendMessagesErrorState extends SocialState {}
+
+class SocialGetMessagesSuccessState extends SocialState {}
+
+class SocialGetMessagesErrorState extends SocialState {}

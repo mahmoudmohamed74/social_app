@@ -6,6 +6,7 @@ import 'package:social_app/cubit/cubit.dart';
 import 'package:social_app/cubit/states.dart';
 import 'package:social_app/moduels/new_post/new_post_screen.dart';
 import 'package:social_app/shared/components/components/components.dart';
+import 'package:social_app/shared/components/constants/constants.dart';
 import 'package:social_app/shared/styles/themes/icon_broken.dart';
 
 class LayoutScreen extends StatelessWidget {
@@ -40,6 +41,14 @@ class LayoutScreen extends StatelessWidget {
                   IconBroken.Search,
                 ),
                 onPressed: () {},
+              ),
+              IconButton(
+                icon: Icon(
+                  IconBroken.Logout,
+                ),
+                onPressed: () {
+                  signOut(context);
+                },
               ),
             ],
           ),
